@@ -1,11 +1,5 @@
-/**
- * Created by Jepson on 2018/4/6.
- */
-
-// 配置禁用小圆环
-NProgress.configure({ showSpinner: false });
-
-//// 开启进度条
+// 进度条
+// 开启进度条
 //NProgress.start();
 //
 //setTimeout(function() {
@@ -14,81 +8,83 @@ NProgress.configure({ showSpinner: false });
 //}, 500)
 
 
-// ajaxStart 所有的 ajax 开始调用
+
+// 需求: 在第一个ajax请求时, 开启进度条
+//       在所有的ajax请求都回来后, 关闭进度条
+
+// ajax全局事件
+// .ajaxComplete()  当每个ajax完成时调用,  (不管成功还是失败, 都调用)
+// .ajaxSuccess()   当每个ajax成功响应时调用
+// .ajaxError()     当每个ajax失败响应时调用
+// .ajaxSend()      当每个ajax准备要发送前, 会调用ajaxSend
+
+// .ajaxStart()     当第一个ajax请求发送时调用
+// .ajaxStop()      当所有的ajax请求完成时调用
+
 $(document).ajaxStart(function() {
-  NProgress.start();
-});
-
-
-// ajaxStop 所有的 ajax 结束调用
-$(document).ajaxStop(function() {
-  // 模拟网络延迟
-  setTimeout(function() {
-    NProgress.done();
-  }, 500)
-});
-
-
-// 在一进入页面进行登录状态获取
-// 如果后端响应头中设置了 Content-Type: application/json
-// jquery 会自动识别, 将返回数据类型, 当成json字符串解析成对象
-
-if ( location.href.indexOf("login.html") === -1 ) {
-  $.ajax({
-    url: "/employee/checkRootLogin",
-    type: "get",
-    success: function( info ) {
-      console.log( info )
-      if ( info.success ) {
-        console.log( "登陆了" );
-        // 啥也不用干
-      }
-
-      if ( info.error === 400 ) {
-        // 进行拦截, 拦截到登录页
-        location.href = "login.html";
-      }
-    }
-  })
-}
-
-
-
-$(function() {
-  // 1. 二级分类切换功能
-  $('.category').click(function() {
-    $(this).next().stop().slideToggle();
+    // 第一个ajax发送时调用, 开启进度条
+    NProgress.start();
   });
-
-
-  // 2. 顶部菜单栏切换显示功能
-  $('.icon_menu').click(function() {
-    $('.lt_aside').toggleClass("hidemenu");
-    $('.lt_main').toggleClass("hidemenu");
-    $('.lt_topbar').toggleClass("hidemenu");
+  
+  
+  // 所有的ajax请求完成时, 关闭进度条
+  $(document).ajaxStop(function() {
+    setTimeout(function() {
+      // 关闭进度条
+      NProgress.done();
+    }, 500);
   });
-
-  // 3. 点击退出图标显示退出模态框
-  $('.icon_logout').click(function() {
-    // 让模态框显示
-    $('#logoutModal').modal("show");
+  
+  
+  // jquery 入口函数, 等待 dom 结构加载完成之后, 就执行
+  $(function() {
+  
+    // 公共的功能
+    // 功能1: 导航点击切换功能
+    $('.lt_aside .category').click(function() {
+      // 让下一个兄弟元素切换显示隐藏
+      $(this).next().stop().slideToggle();
+    });
+  
+    // 功能2: 左侧菜单列表切换功能
+    $(".lt_topbar .icon_left").click(function() {
+  
+      $('.lt_aside').toggleClass("hidemenu");
+  
+      $('.lt_main').toggleClass("hidemenu");
+  
+      $('.lt_topbar').toggleClass("hidemenu");
+  
+    })
+  
+    // 功能3: 退出功能
+    $('.lt_topbar .icon_right').click(function() {
+      // 点击按钮, 显示模态框
+      // $('#modal').modal("show") // 显示
+      // $('#modal').modal("hide") // 隐藏
+      $('#logoutModal').modal("show");
+    });
+  
+    // 模态框的按钮点击事件
+    $('#logoutBtn').click(function() {
+  
+      // 发送ajax请求, 让后台销毁当前用户的登录状态
+      $.ajax({
+        type: "get",
+        url: "/employee/employeeLogout",
+        dataType: "json",
+        success: function( info ) {
+          console.log( info );
+          if ( info.success ) {
+            // 退出成功
+            location.href = "login.html";
+          }
+        }
+      });
+  
+  
+    })
+  
   })
-
-  // 4. 在外面注册 logoutBtn 退出按钮, 点击事件
-  $('#logoutBtn').click(function() {
-    console.log("hehe");
-
-    // 访问退出接口, 进行退出
-     $.ajax({
-       url: "/employee/employeeLogout",
-       type: "GET",
-       dataType: "json",
-       success: function( info ) {
-
-         if ( info.success ) {
-           location.href = "login.html"
-         }
-       }
-     })
-  })
-})
+  
+  
