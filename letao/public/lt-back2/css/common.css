@@ -9,6 +9,12 @@ ul{
   padding: 0;
   margin: 0;
 }
+/* 重置时注意权重 多叫几个爹*/
+.table.table-bordered th,
+.table.table-bordered td{
+  text-align: center;
+  vertical-align: middle;
+}
 .body-bg{
   background-color: #242C31;
 }
@@ -89,7 +95,7 @@ ul{
   background-color: #1D1E20;
 }
 .lt_main{
-  background-color: pink;
+  /* background-color: pink; */
   height: 1000px;
   padding-left:180px;
   padding-top:50px;
