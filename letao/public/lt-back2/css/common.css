@@ -30,7 +30,10 @@ ul{
   top: 0;
   background-color: #242C31;
   z-index: 999;
-
+  transition: all 1s;
+}
+.lt_aside.hidemenu{
+  left:-180px;
 }
 .lt_aside .brand{
   width: 180px;
@@ -90,6 +93,10 @@ ul{
   height: 1000px;
   padding-left:180px;
   padding-top:50px;
+  transition: all 1s;
+}
+.lt_main.hidemenu{
+  padding-left:0;
 }
 .lt_main .lt_topbar{
   position: fixed;
@@ -99,9 +106,13 @@ ul{
   height: 50px;
   background-color: #518CB8;
   padding-left:180px;
+  transition: all 1s;
+}
+.lt_main .lt_topbar.hidemenu{
+  padding-left:0px;
 }
 .lt_main .lt_topbar .icon_left,
-.lt_main .lt_topbar .icon_left{
+.lt_main .lt_topbar .icon_right{
   width: 50px;
   height: 50px;
   line-height: 50px;
@@ -112,4 +123,7 @@ ul{
 }
 .mt_20{
   margin-top:20px;
+}
+.red{
+  color:#9D4A46;
 }
