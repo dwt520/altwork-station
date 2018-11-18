@@ -133,7 +133,7 @@ ul{
 .red{
   color:#9D4A46;
 }
-.echarts_left,
+.echarts_left, 
 .echarts_right{
   height: 400px;
   width: 48%;
