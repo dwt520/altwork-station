@@ -1,17 +1,21 @@
 // 进度条
 // 需求：在第一个ajax请求时，开启进度条
 // 在所有ajax请求都回来后，关闭进度条
-$(document).ajaxStart(function () {
-    // console.log("ajaxStart在开始一个ajax请求时触发");
+$(document).ajaxStart(function() {
+    // 第一个ajax发送时调用, 开启进度条
     NProgress.start();
   });
-  $( document ).ajaxStop(function() {
-    // $( ".log" ).text( "Triggered ajaxStop handler." );
-    // 关闭进度条
-    setTimeout(function(){
-        NProgress.done();
-    },500)
+  
+  
+  // 所有的ajax请求完成时, 关闭进度条
+  $(document).ajaxStop(function() {
+    setTimeout(function() {
+      // 关闭进度条
+      NProgress.done();
+    }, 500);
   });
+
+
   $(function(){
     //   公共的功能
     // 1.导航点击切换

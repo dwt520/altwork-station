@@ -83,7 +83,7 @@ ul{
     padding-left:60px;
 }
 .lt_main{
-    background-color: pink;
+    /* background-color: pink; */
     height: 1000px;
     padding-left:180px;
     padding-top:50px;
@@ -116,4 +116,17 @@ ul{
 }
 .modal-body{
     color:#9D4A46;
+}
+.mt_20{
+    margin-top:20px;
+}
+.echarts_left,
+.echarts_right{
+    height: 400px;
+    width: 48%;
+}
+.table.table-bordered th,
+.table.table-bordered td{
+    text-align: center;
+    vertical-align: middle;
 }
